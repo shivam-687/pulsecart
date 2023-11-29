@@ -4,22 +4,27 @@ import Info from '@/components/info';
 import getProduct from '@/actions/get-product';
 import getProducts from '@/actions/get-products';
 import Container from '@/components/ui/container';
+import { getStore } from '@/actions/get-store';
 
 export const revalidate = 0;
 
 interface ProductPageProps {
   params: {
     productId: string;
+    slug: string;
   },
 }
 
-const ProductPage: React.FC<ProductPageProps> = async ({ 
+const ProductPage: React.FC<ProductPageProps> = async ({
   params
- }) => {
-  const product = await getProduct(params.productId);
-  const suggestedProducts = await getProducts({ 
-    categoryId: product?.category?.id
-  });
+}) => {
+  const store = await getStore(params.slug)
+  const product = await getProduct(store.id, params.productId);
+  const suggestedProducts = await getProducts(
+    store.id,
+    {
+      categoryId: product?.category?.id
+    });
 
   if (!product) {
     return null;
@@ -39,7 +44,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
           <ProductList title="Related Items" items={suggestedProducts} />
         </div>
       </Container>
-    </div>  
+    </div>
   )
 }
 

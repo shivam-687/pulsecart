@@ -11,12 +11,14 @@ import getColors from '@/actions/get-colors';
 
 import Filter from './components/filter';
 import MobileFilters from './components/mobile-filters';
+import { getStore } from '@/actions/get-store';
 
 export const revalidate = 0;
 
 interface CategoryPageProps {
   params: {
     categoryId: string;
+    slug: string;
   },
   searchParams: {
     colorId: string;
@@ -28,14 +30,15 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   params, 
   searchParams
 }) => {
-  const products = await getProducts({ 
+  const store = await getStore(params.slug)
+  const products = await getProducts(store.id,{ 
     categoryId: params.categoryId,
     colorId: searchParams.colorId,
     sizeId: searchParams.sizeId,
   });
-  const sizes = await getSizes();
-  const colors = await getColors();
-  const category = await getCategory(params.categoryId);
+  const sizes = await getSizes(store.id);
+  const colors = await getColors(store.id);
+  const category = await getCategory(store.id, params.categoryId);
 
   return (
     <div className="bg-white">
