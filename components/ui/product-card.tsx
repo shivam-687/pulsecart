@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { MouseEventHandler } from "react";
 import { Expand, ShoppingCart } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import Currency  from "@/components/ui/currency";
 import IconButton  from "@/components/ui/icon-button";
@@ -21,9 +21,10 @@ const ProductCard: React.FC<ProductCard> = ({
   const previewModal = usePreviewModal();
   const cart = useCart();
   const router = useRouter();
+  const params = useParams();
 
   const handleClick = () => {
-    router.push(`/product/${data?.id}`);
+    router.push(`${params.slug}/product/${data?.id}`);
   };
 
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -63,7 +64,7 @@ const ProductCard: React.FC<ProductCard> = ({
       </div>
       {/* Description */}
       <div>
-        <p className="font-semibold text-lg">{data.name}</p>
+        <h2 className="font-semibold text-lg">{data.name}</h2>
         <p className="text-sm text-gray-500">{data.category?.name}</p>
       </div>
       {/* Price & Reiew */}
