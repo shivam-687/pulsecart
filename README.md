@@ -20,7 +20,7 @@ Key Features:
 - Order creation
 - Stripe checkout
 - Stripe webhooks
-- MySQL + Prisma + PlanetScale
+- Postgresql + Prisma + Supabase
 
 ### Prerequisites
 
